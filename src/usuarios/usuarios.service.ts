@@ -17,7 +17,7 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private readonly repository: Repository<Usuario>
-  ) {}
+  ) { }
 
   public async create(dto: CreateUsuarioDto): Promise<IUsuario> {
     try {
@@ -59,5 +59,19 @@ export class UsuariosService {
   public async remove(id: string) {
     const entity = await this.findOne(id);
     await this.repository.remove(entity);
+  }
+
+  public async findByEmail(email: string): Promise<Usuario> {
+    const usuario = await this.repository.findOne({
+      where: {
+        email: email
+      }
+    });
+
+    if (!usuario) {
+      throw new NotFoundException(`Usuario ${email} não encontrado`);
+    }
+
+    return usuario;
   }
 }

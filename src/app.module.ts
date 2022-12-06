@@ -10,6 +10,9 @@ import { EtiquetasModule } from './etiquetas/etiquetas.module';
 import { PacotesModule } from './pacotes/pacotes.module';
 import { OperadoresLogisticosModule } from './operadores-logisticos/operadores-logisticos.module';
 import { RestRequestModule } from './rest-request/rest-request.module';
+import { AuthModule } from './auth/auth.module';
+import { UtilsModule } from './utils/utils.module';
+import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.module';
 
 @Module({
   imports: [
@@ -34,7 +37,10 @@ import { RestRequestModule } from './rest-request/rest-request.module';
     EtiquetasModule,
     PacotesModule,
     OperadoresLogisticosModule,
-    RestRequestModule
+    RestRequestModule,
+    AuthModule,
+    UtilsModule,
+    RegistroUsuarioModule
   ],
   controllers: [AppController],
   providers: [AppService],
