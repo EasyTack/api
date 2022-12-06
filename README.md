@@ -1,6 +1,7 @@
 # Description
 
-EasyTrack
+This is the back-end for the EasyTrack project.
+Don't forget to create a .env from the example adding the configs for your Postgresql enviroment.
 
 ## Installation
 
