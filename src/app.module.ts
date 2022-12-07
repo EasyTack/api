@@ -10,7 +10,7 @@ import { EtiquetasModule } from './etiquetas/etiquetas.module';
 import { PacotesModule } from './pacotes/pacotes.module';
 import { OperadoresLogisticosModule } from './operadores-logisticos/operadores-logisticos.module';
 import { RestRequestModule } from './rest-request/rest-request.module';
-import { AuthModule } from './auth/auth.module';
+import { LoginModule } from './login/login.module';
 import { UtilsModule } from './utils/utils.module';
 import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.module';
 
@@ -38,7 +38,7 @@ import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.modul
     PacotesModule,
     OperadoresLogisticosModule,
     RestRequestModule,
-    AuthModule,
+    LoginModule,
     UtilsModule,
     RegistroUsuarioModule
   ],

@@ -1,7 +1,9 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { RegistroUsuarioService } from './registro-usuario.service';
 import { RegistroUsuarioDto } from './dto/registro-usuario.dto';
 
+@ApiTags('auth')
 @Controller('auth/register')
 export class RegistroUsuarioController {
   constructor(private readonly registroUsuarioService: RegistroUsuarioService) { }

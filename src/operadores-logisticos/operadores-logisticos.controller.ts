@@ -1,8 +1,10 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { OperadoresLogisticosService } from './operadores-logisticos.service';
 import { CreateOperadorLogisticoDto } from './dto/create-operador-logistico.dto';
 import { UpdateOperadorLogisticoDto } from './dto/update-operador-logistico.dto';
 
+@ApiTags('operadores-logisticos')
 @Controller('operadores-logisticos')
 export class OperadoresLogisticosController {
   constructor(

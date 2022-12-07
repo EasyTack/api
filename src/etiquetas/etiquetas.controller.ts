@@ -1,8 +1,10 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EtiquetasService } from './etiquetas.service';
 import { CreateEtiquetaDto } from './dto/create-etiqueta.dto';
 import { UpdateEtiquetaDto } from './dto/update-etiqueta.dto';
 
+@ApiTags('etiquetas')
 @Controller('etiquetas')
 export class EtiquetasController {
   constructor(private readonly etiquetasService: EtiquetasService) {}

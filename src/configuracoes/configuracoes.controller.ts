@@ -1,8 +1,10 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ConfiguracoesService } from './configuracoes.service';
 import { CreateConfiguracaoDto } from './dto/create-configuracao.dto';
 import { UpdateConfiguracaoDto } from './dto/update-configuracao.dto';
 
+@ApiTags('configuracoes')
 @Controller('configuracoes')
 export class ConfiguracoesController {
   constructor(private readonly configuracoesService: ConfiguracoesService) { }

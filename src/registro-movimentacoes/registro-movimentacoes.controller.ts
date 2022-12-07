@@ -1,8 +1,9 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { RegistroMovimentacoesService } from './registro-movimentacoes.service';
 import { CreateRegistroMovimentacaoDto } from './dto/create-registro-movimentacao.dto';
 import { UpdateRegistroMovimentacaoDto } from './dto/update-registro-movimentacao.dto';
-
+@ApiTags('registro-movimentacoes')
 @Controller('registro-movimentacoes')
 export class RegistroMovimentacoesController {
   constructor(
