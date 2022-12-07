@@ -1,10 +1,12 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { PacotesService } from './pacotes.service';
 import { CreatePacoteDto } from './dto/create-pacote.dto';
 import { UpdatePacoteDto } from './dto/update-pacote.dto';
+import { AuthGuard } from '@nestjs/passport';
 @ApiTags('pacotes')
 @Controller('pacotes')
+@UseGuards(AuthGuard('jwt'))
 export class PacotesController {
   constructor(private readonly pacotesService: PacotesService) { }
 

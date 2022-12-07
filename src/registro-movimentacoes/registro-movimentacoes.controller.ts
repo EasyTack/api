@@ -1,10 +1,12 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { RegistroMovimentacoesService } from './registro-movimentacoes.service';
 import { CreateRegistroMovimentacaoDto } from './dto/create-registro-movimentacao.dto';
 import { UpdateRegistroMovimentacaoDto } from './dto/update-registro-movimentacao.dto';
+import { AuthGuard } from '@nestjs/passport';
 @ApiTags('registro-movimentacoes')
 @Controller('registro-movimentacoes')
+@UseGuards(AuthGuard('jwt'))
 export class RegistroMovimentacoesController {
   constructor(
     private readonly registroMovimentacoesService: RegistroMovimentacoesService

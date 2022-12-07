@@ -74,4 +74,18 @@ export class UsuariosService {
 
     return usuario;
   }
+
+  public async findByUser(usuario: string): Promise<Usuario> {
+    const usuarioDb = await this.repository.findOne({
+      where: {
+        usuario: usuario
+      }
+    });
+
+    if (!usuarioDb) {
+      throw new NotFoundException(`Usuario ${usuario} não encontrado`);
+    }
+
+    return usuarioDb;
+  }
 }
