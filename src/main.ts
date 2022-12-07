@@ -8,6 +8,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   configureSwaggerDocs(app);
   const port = process.env.PORT || 3000;
+  app.enableCors();
 
   await app.listen(port, () => {
     Logger.log(`Listening on port ${port}`);
