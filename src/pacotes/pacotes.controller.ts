@@ -1,11 +1,13 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { PacotesService } from './pacotes.service';
 import { CreatePacoteDto } from './dto/create-pacote.dto';
 import { UpdatePacoteDto } from './dto/update-pacote.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { FactoriesService } from 'src/factories/factories.service';
+import { FactoriesService } from './../factories/factories.service';
 import { RegistroMovimentacoesService } from 'src/registro-movimentacoes/registro-movimentacoes.service';
+import { UtilsService } from './../utils/utils.service';
+import { UsuariosService } from 'src/usuarios/usuarios.service';
 @ApiTags('pacotes')
 @Controller('pacotes')
 @UseGuards(AuthGuard('jwt'))
@@ -13,7 +15,9 @@ export class PacotesController {
   constructor(
     private readonly pacotesService: PacotesService,
     private readonly factoriesServices: FactoriesService,
-    private readonly registroMovimentacoesService: RegistroMovimentacoesService
+    private readonly registroMovimentacoesService: RegistroMovimentacoesService,
+    private readonly utilsService: UtilsService,
+    private readonly usuariosService: UsuariosService
   ) { }
 
   @Post()
@@ -42,7 +46,7 @@ export class PacotesController {
   }
 
   @Get(':operador_logistico/:codigo_pacote')
-  async getPacoteLogistica(@Param('operador_logistico') operador_logistico: string, @Param('codigo_pacote') codigo_pacote: string) {
+  async getPacoteLogistica(@Req() request: Request, @Param('operador_logistico') operador_logistico: string, @Param('codigo_pacote') codigo_pacote: string) {
     const operador_movimentacoes = await this.pacotesService.getPacoteLogistica(operador_logistico, codigo_pacote);
     let registroMovimentacoes = [];
     switch (operador_movimentacoes.operador_logistico.documento) {
@@ -52,21 +56,20 @@ export class PacotesController {
       default:
         break;
     }
-    const registroMovimentacoesDb = [];
-    for (const registro of registroMovimentacoes)
-      registroMovimentacoesDb.push(await this.registroMovimentacoesService.create(registro));
-    const pacote = {
-      data_postagem: "",
-      data_entrega: "",
+    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', ''));
+    const usuario = await this.usuariosService.findOne(idUsuario);
+    
+    return this.pacotesService.create({
+      data_postagem: new Date(0),
+      data_entrega: new Date(0),
       codigo_operador_logistico: codigo_pacote,
       local_origem: "",
       local_destino: "",
       status: "",
-      movimentacoes: registroMovimentacoesDb,
+      movimentacoes: registroMovimentacoes,
       etiquetas: [],
-      usuario: {},
+      usuario: usuario,
       operador_logistico: operador_movimentacoes.operador_logistico
-    };
-    return pacote;
+    });
   }
 }

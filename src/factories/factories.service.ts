@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class FactoriesService {
@@ -13,7 +14,7 @@ export class FactoriesService {
             if (evento.subStatus && (Array.isArray(evento.subStatus) && evento.subStatus.length > 1) && (evento.subStatus[1].startsWith("Destino")))
                 local_destino = evento.subStatus[1].replace("Destino: ", '');
             registroMovimentacoes.push({
-                data_movimentacao: evento.data,
+                data_movimentacao: DateTime.fromFormat(evento.data, 'dd-MM-yyyy'),
                 local_origem: local_origem,
                 local_destino: local_destino,
                 status: evento.status,
