@@ -88,4 +88,17 @@ export class UsuariosService {
 
     return usuarioDb;
   }
+
+  public async findWithRelations(id: string) {
+    console.log(id,"ooi")
+    const entity = await this.repository.findOne({
+      where: { usuario: id },
+      loadEagerRelations: true
+    });
+
+    if (!entity)
+      throw new NotFoundException(`${this.nameof} #${id} não encontrado`);
+
+    return entity;
+  }
 }

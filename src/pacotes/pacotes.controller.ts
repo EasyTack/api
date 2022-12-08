@@ -57,9 +57,9 @@ export class PacotesController {
       default:
         break;
     }
-    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', ''));
+    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', '').replace('bearer ', ''));
     const usuario = await this.usuariosService.findOne(idUsuario);
-    
+
     return this.pacotesService.create({
       data_postagem: new Date(0),
       data_entrega: new Date(0),
@@ -73,4 +73,12 @@ export class PacotesController {
       operador_logistico: operador_movimentacoes.operador_logistico
     });
   }
+  @Get('user')
+  async findByUsuario(@Req() request: Request) {
+    //nao consegui fazer funcionar
+    console.log(request)
+    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', '').replace('bearer ', ''));
+    return await this.usuariosService.findWithRelations(idUsuario);
+  }
+
 }

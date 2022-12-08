@@ -13,7 +13,8 @@ export class UtilsService {
   }
 
   public decode(token) {
-    const obj = this.jwtService.decode(token)
+    console.log(token)
+    const obj = this.jwtService.decode(token);
     return obj['id'];
   }
 }
