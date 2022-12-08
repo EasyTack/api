@@ -6,4 +6,5 @@ export class UtilsService {
   public generatePassword() {
     return crypto.randomUUID();
   }
+  
 }

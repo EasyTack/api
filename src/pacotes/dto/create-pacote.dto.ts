@@ -1,4 +1,6 @@
+import { IEtiqueta } from "src/etiquetas/interfaces/etiqueta.interface";
 import { IOperadorLogistico } from "src/operadores-logisticos/interfaces/operador-logistico.interface";
+import { IRegistroMovimentacao } from "src/registro-movimentacoes/interfaces/registro-movimentacao.interface";
 import { IUsuario } from "src/usuarios/interfaces/usuario.interface";
 
 export class CreatePacoteDto {
@@ -8,6 +10,8 @@ export class CreatePacoteDto {
     local_origem: string;
     local_destino: string;
     status: string;
+    movimentacoes: IRegistroMovimentacao[];
+    etiquetas: IEtiqueta[];
     usuario: IUsuario;
     operador_logistico: IOperadorLogistico;
 }

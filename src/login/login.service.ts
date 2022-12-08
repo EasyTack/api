@@ -65,7 +65,7 @@ export class LoginService {
 
   public async validateUserByJwt(payload: JwtPayload) {
     // This will be used when the usuario has already logged in and has a JWT
-    const usuario = await this.usersService.findByEmail(payload.email);
+    const usuario = await this.usersService.findByEmail(payload.usuario);
 
     if (!usuario) {
       throw new UnauthorizedException();
@@ -75,7 +75,7 @@ export class LoginService {
 
   protected createJwtPayload(usuario) {
     const data: JwtPayload = {
-      email: usuario.email,
+      usuario: usuario.usuario,
     };
 
     const jwt = this.jwtService.sign(data);

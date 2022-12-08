@@ -13,6 +13,7 @@ import { RestRequestModule } from './rest-request/rest-request.module';
 import { LoginModule } from './login/login.module';
 import { UtilsModule } from './utils/utils.module';
 import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.module';
+import { FactoriesModule } from './factories/factories.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.modul
     RestRequestModule,
     LoginModule,
     UtilsModule,
-    RegistroUsuarioModule
+    RegistroUsuarioModule,
+    FactoriesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -66,14 +66,14 @@ export class PacotesService {
 
   public async getPacoteLogistica(operador_logistico_documento: string, codigo_pacote: string) {
     const operador_logistico = await this.operadorLogisticoRepository.findOneBy({ documento: operador_logistico_documento });
-    let pacote = {};
+    let pacoteMovimentacoes = {};
     switch (operador_logistico.documento) {
       case '34028316000103':
-        pacote = await this.restRequestService.getCorreios(codigo_pacote);
+        pacoteMovimentacoes = await this.restRequestService.getCorreios(codigo_pacote);
         break;
       default:
         break;
     }
-    return { operador_logistico, pacote };
+    return { operador_logistico, pacoteMovimentacoes };
   }
 }
