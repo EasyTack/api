@@ -10,13 +10,19 @@ import { CreatePacoteDto } from './dto/create-pacote.dto';
 import { UpdatePacoteDto } from './dto/update-pacote.dto';
 import { Pacote } from './entities/pacote.entity';
 import { IPacote } from './interfaces/pacote.interface';
+import { OperadorLogistico } from 'src/operadores-logisticos/entities/operador-logistico.entity';
+import { OperadoresLogisticosService } from 'src/operadores-logisticos/operadores-logisticos.service';
+import { RestRequestService } from 'src/rest-request/rest-request.service';
 
 @Injectable()
 export class PacotesService {
   private readonly nameof = 'Pacote';
   constructor(
     @InjectRepository(Pacote)
-    private readonly repository: Repository<Pacote>
+    private readonly repository: Repository<Pacote>,
+    @InjectRepository(OperadorLogistico)
+    private readonly operadorLogisticoRepository: Repository<OperadorLogistico>,
+    private readonly restRequestService: RestRequestService
   ) { }
 
   public async create(dto: CreatePacoteDto): Promise<IPacote> {
@@ -56,5 +62,18 @@ export class PacotesService {
   public async remove(id: string) {
     const entity = await this.findOne(id);
     await this.repository.remove(entity);
+  }
+
+  public async getPacoteLogistica(codigo_pacote: string, operador_logistico_id: string) {
+    const operador_logistico = await this.operadorLogisticoRepository.findOneBy({ id: operador_logistico_id });
+    let pacote = {};
+    switch (operador_logistico.nome_fantasia) {
+      case 'Correios':
+        pacote = await this.restRequestService.getCorreios(codigo_pacote);
+        break;
+      default:
+        break;
+    }
+    return { operador_logistico, pacote };
   }
 }

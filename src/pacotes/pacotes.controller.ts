@@ -34,4 +34,9 @@ export class PacotesController {
   remove(@Param('id') id: string) {
     return this.pacotesService.remove(id);
   }
+
+  @Get('/:codigo_pacote/:operador_logistico')
+  async getPacoteLogistica(@Param('codigo_pacote') codigo_pacote: string, @Param('operador_logistico') operador_logistico: string) {
+    const operador_pacote = await this.pacotesService.getPacoteLogistica(codigo_pacote, operador_logistico);
+  }
 }
