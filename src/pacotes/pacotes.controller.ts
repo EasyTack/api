@@ -8,6 +8,7 @@ import { FactoriesService } from './../factories/factories.service';
 import { RegistroMovimentacoesService } from 'src/registro-movimentacoes/registro-movimentacoes.service';
 import { UtilsService } from './../utils/utils.service';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { Request } from 'express';
 @ApiTags('pacotes')
 @Controller('pacotes')
 @UseGuards(AuthGuard('jwt'))
