@@ -5,7 +5,7 @@ import { Pacote } from "../../pacotes/entities/pacote.entity";
 
 @Entity()
 export class Usuario extends Pessoa {
-    @Column()
+    @Column({ unique: true })
     usuario: string;
 
     @Column({ unique: true })

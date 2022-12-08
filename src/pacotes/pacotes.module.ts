@@ -4,8 +4,8 @@ import { PacotesController } from './pacotes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pacote } from './entities/pacote.entity';
 import { RegistroMovimentacao } from '../registro-movimentacoes/entities/registro-movimentacao.entity';
-import { RestRequestService } from 'src/rest-request/rest-request.service';
-import { OperadorLogistico } from 'src/operadores-logisticos/entities/operador-logistico.entity';
+import { RestRequestService } from '../rest-request/rest-request.service';
+import { OperadorLogistico } from '../operadores-logisticos/entities/operador-logistico.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pacote, RegistroMovimentacao, OperadorLogistico])],

@@ -5,7 +5,7 @@ import { Pacote } from "../../pacotes/entities/pacote.entity";
 @Entity()
 export class RegistroMovimentacao extends Entidade {
     @Column()
-    data_movimentacao: Date;
+    data_movimentacao?: Date;
 
     @Column()
     local_origem: string;

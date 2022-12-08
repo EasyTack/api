@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
-import { RestRequestService } from './rest-request.service';
 import { RestRequestController } from './rest-request.controller';
+import { PacotesService } from './../pacotes/pacotes.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Pacote } from 'src/pacotes/entities/pacote.entity';
+import { RestRequestService } from './rest-request.service';
+import { OperadorLogistico } from '../operadores-logisticos/entities/operador-logistico.entity';
+import { RegistroMovimentacao } from '../registro-movimentacoes/entities/registro-movimentacao.entity';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Pacote, RegistroMovimentacao, OperadorLogistico])],
   controllers: [RestRequestController],
-  providers: [RestRequestService]
+  providers: [RestRequestService, PacotesService]
 })
-export class RestRequestModule {}
+export class RestRequestModule { }

@@ -64,11 +64,11 @@ export class PacotesService {
     await this.repository.remove(entity);
   }
 
-  public async getPacoteLogistica(codigo_pacote: string, operador_logistico_id: string) {
-    const operador_logistico = await this.operadorLogisticoRepository.findOneBy({ id: operador_logistico_id });
+  public async getPacoteLogistica(operador_logistico_documento: string, codigo_pacote: string) {
+    const operador_logistico = await this.operadorLogisticoRepository.findOneBy({ documento: operador_logistico_documento });
     let pacote = {};
-    switch (operador_logistico.nome_fantasia) {
-      case 'Correios':
+    switch (operador_logistico.documento) {
+      case '34028316000103':
         pacote = await this.restRequestService.getCorreios(codigo_pacote);
         break;
       default:

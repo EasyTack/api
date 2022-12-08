@@ -1,29 +1,32 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
-import { IUsuario } from '../usuarios/interfaces/usuario.interface';
-import { UsuariosService } from '../usuarios/usuarios.service';
 import { RegistroUsuarioDto } from './dto/registro-usuario.dto';
-import { ConfiguracoesService } from 'src/configuracoes/configuracoes.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Usuario } from './../usuarios/entities/usuario.entity';
+import { Repository } from 'typeorm';
+import { Configuracao } from 'src/configuracoes/entities/configuracao.entity';
+import { IRegistroUsuario } from './interfaces/registro-usuario.interface.entity';
 import { RegistroUsuario } from './entities/registro-usuario.entity';
 
 @Injectable()
 export class RegistroUsuarioService {
   constructor(
-    private readonly usersService: UsuariosService,
-    private readonly configuracoesService: ConfiguracoesService,
+    @InjectRepository(Usuario)
+    private readonly repositoryUsuario: Repository<Usuario>,
+    @InjectRepository(Configuracao)
+    private readonly repositoryConfiguracao: Repository<Configuracao>
   ) { }
   public async register(
     registerUserDto: RegistroUsuarioDto
   ): Promise<RegistroUsuario> {
     registerUserDto.senha = bcrypt.hashSync(registerUserDto.senha, 8);
-    const usuario = await this.usersService.create(registerUserDto);
-    const configuracao = await this.configuracoesService.create({
+    const configuracao = await this.repositoryConfiguracao.save({
       update_automatico: true,
       tipo_ordenacao_padrao: 0,
       intervalo_atualizacao: 1,
-      horario_comercial_atualizacao: false,
-      usuario: usuario
+      horario_comercial_atualizacao: false
     });
-    return { ...usuario, configuracao };
+    const usuario = await this.repositoryUsuario.save({ ...registerUserDto, configuracao });
+    return { usuario, configuracao }
   }
 }

@@ -11,8 +11,4 @@ export interface IPacote extends IEntidade {
     readonly local_origem: string;
     readonly local_destino: string;
     readonly status: string;
-    readonly operador_logistico: OperadorLogistico;
-    readonly usuario: Usuario;
-    readonly etiquetas: Etiqueta[];
-    readonly movimentacoes: RegistroMovimentacao[];
 }

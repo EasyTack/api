@@ -1,8 +1,5 @@
-import { Etiqueta } from "src/etiquetas/entities/etiqueta.entity";
-import { OperadorLogistico } from "src/operadores-logisticos/entities/operador-logistico.entity";
-import { RegistroMovimentacao } from "src/registro-movimentacoes/entities/registro-movimentacao.entity";
-import { Usuario } from "src/usuarios/entities/usuario.entity";
-import { IPacote } from "../interfaces/pacote.interface";
+import { IOperadorLogistico } from "src/operadores-logisticos/interfaces/operador-logistico.interface";
+import { IUsuario } from "src/usuarios/interfaces/usuario.interface";
 
 export class CreatePacoteDto {
     data_postagem: Date;
@@ -11,4 +8,6 @@ export class CreatePacoteDto {
     local_origem: string;
     local_destino: string;
     status: string;
+    usuario: IUsuario;
+    operador_logistico: IOperadorLogistico;
 }

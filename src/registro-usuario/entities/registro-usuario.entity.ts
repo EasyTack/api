@@ -1,15 +1,7 @@
-import { IConfiguracao } from "../../configuracoes/interfaces/configuracao.interface";
-import { IUsuario } from "../../usuarios/interfaces/usuario.interface";
+import { Configuracao } from "../../configuracoes/entities/configuracao.entity";
+import { Usuario } from "../../usuarios/entities/usuario.entity";
 
-export class RegistroUsuario implements IUsuario {
-    usuario: string;
-    email: string;
-    senha: string;
-    nome: string;
-    sobrenome: string;
-    documento: string;
-    id: string;
-    criado_em: Date;
-    atualizado_em: Date;
-    configuracao: IConfiguracao;
+export class RegistroUsuario {
+    usuario: Usuario;
+    configuracao: Configuracao;
 }

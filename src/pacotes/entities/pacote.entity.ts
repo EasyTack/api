@@ -8,22 +8,22 @@ import { OperadorLogistico } from "../../operadores-logisticos/entities/operador
 @Entity()
 export class Pacote extends Entidade {
     @Column()
-    data_postagem: Date;
+    data_postagem?: Date;
 
     @Column()
-    data_entrega: Date;
+    data_entrega?: Date;
 
     @Column()
     codigo_operador_logistico: string;
 
     @Column()
-    local_origem: string;
+    local_origem?: string;
 
     @Column()
-    local_destino: string;
+    local_destino?: string;
 
     @Column()
-    status: string;
+    status?: string;
 
     @OneToMany(() => RegistroMovimentacao, (movimentacoes) => movimentacoes.pacote, { cascade: true })
     movimentacoes: RegistroMovimentacao[];
