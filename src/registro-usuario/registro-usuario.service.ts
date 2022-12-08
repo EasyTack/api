@@ -4,6 +4,7 @@ import { IUsuario } from '../usuarios/interfaces/usuario.interface';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { RegistroUsuarioDto } from './dto/registro-usuario.dto';
 import { ConfiguracoesService } from 'src/configuracoes/configuracoes.service';
+import { RegistroUsuario } from './entities/registro-usuario.entity';
 
 @Injectable()
 export class RegistroUsuarioService {
@@ -13,7 +14,7 @@ export class RegistroUsuarioService {
   ) { }
   public async register(
     registerUserDto: RegistroUsuarioDto
-  ): Promise<IUsuario> {
+  ): Promise<RegistroUsuario> {
     registerUserDto.senha = bcrypt.hashSync(registerUserDto.senha, 8);
     const usuario = await this.usersService.create(registerUserDto);
     const configuracao = await this.configuracoesService.create({
@@ -23,6 +24,6 @@ export class RegistroUsuarioService {
       horario_comercial_atualizacao: false,
       usuario: usuario
     });
-    return usuario;
+    return { ...usuario, configuracao };
   }
 }
