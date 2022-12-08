@@ -22,8 +22,6 @@ export class FactoriesService {
                 status: evento.status,
                 response: evento
             })
-
-            console.log(registroMovimentacoes)
         }
         return registroMovimentacoes;
     }
