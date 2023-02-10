@@ -63,7 +63,7 @@ export class SparqlService {
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX : <${uri}>
         
-        <${uri}OperadorLogistico> rdf:type owl:Class;
+        <${uri}> rdf:type owl:Class;
                 rdfs:label "Operador Logistico" ;
                 rdfs:subClassOf :Entidade;
                 rdfs:comment "Classe que representa um operador logístico." .
