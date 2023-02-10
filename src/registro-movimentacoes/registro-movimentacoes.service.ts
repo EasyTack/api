@@ -2,7 +2,7 @@ import {
   Injectable,
   NotFoundException,
   HttpException,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,11 +16,11 @@ export class RegistroMovimentacoesService {
   private readonly nameof = 'RegistroMovimentacao';
   constructor(
     @InjectRepository(RegistroMovimentacao)
-    private readonly repository: Repository<RegistroMovimentacao>
+    private readonly repository: Repository<RegistroMovimentacao>,
   ) {}
 
   public async create(
-    dto: CreateRegistroMovimentacaoDto
+    dto: CreateRegistroMovimentacaoDto,
   ): Promise<IRegistroMovimentacao> {
     try {
       return await this.repository.save(dto);
@@ -44,7 +44,7 @@ export class RegistroMovimentacoesService {
 
   public async update(
     id: string,
-    dto: UpdateRegistroMovimentacaoDto
+    dto: UpdateRegistroMovimentacaoDto,
   ): Promise<UpdateResult> {
     try {
       const entity = await this.repository.update({ id: id }, { ...dto });

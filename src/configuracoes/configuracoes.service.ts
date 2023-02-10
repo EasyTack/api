@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateConfiguracaoDto } from './dto/create-configuracao.dto';
@@ -11,8 +16,8 @@ export class ConfiguracoesService {
   private readonly nameof = 'Configuracao';
   constructor(
     @InjectRepository(Configuracao)
-    private readonly repository: Repository<Configuracao>
-  ) { }
+    private readonly repository: Repository<Configuracao>,
+  ) {}
 
   public async create(dto: CreateConfiguracaoDto): Promise<IConfiguracao> {
     try {
@@ -37,7 +42,7 @@ export class ConfiguracoesService {
 
   public async update(
     id: string,
-    dto: UpdateConfiguracaoDto
+    dto: UpdateConfiguracaoDto,
   ): Promise<UpdateResult> {
     try {
       const entity = await this.repository.update({ id: id }, { ...dto });

@@ -1,5 +1,15 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { PacotesService } from './pacotes.service';
 import { CreatePacoteDto } from './dto/create-pacote.dto';
 import { UpdatePacoteDto } from './dto/update-pacote.dto';
@@ -18,8 +28,8 @@ export class PacotesController {
     private readonly factoriesServices: FactoriesService,
     private readonly registroMovimentacoesService: RegistroMovimentacoesService,
     private readonly utilsService: UtilsService,
-    private readonly usuariosService: UsuariosService
-  ) { }
+    private readonly usuariosService: UsuariosService,
+  ) {}
 
   @Post()
   create(@Body() createPacoteDto: CreatePacoteDto) {
@@ -47,38 +57,54 @@ export class PacotesController {
   }
 
   @Get(':operador_logistico/:codigo_pacote')
-  async getPacoteLogistica(@Req() request: Request, @Param('operador_logistico') operador_logistico: string, @Param('codigo_pacote') codigo_pacote: string) {
-    const operador_movimentacoes = await this.pacotesService.getPacoteLogistica(operador_logistico, codigo_pacote);
+  async getPacoteLogistica(
+    @Req() request: Request,
+    @Param('operador_logistico') operador_logistico: string,
+    @Param('codigo_pacote') codigo_pacote: string,
+  ) {
+    const operador_movimentacoes = await this.pacotesService.getPacoteLogistica(
+      operador_logistico,
+      codigo_pacote,
+    );
     let registroMovimentacoes = [];
     switch (operador_movimentacoes.operador_logistico.documento) {
       case '34028316000103':
-        registroMovimentacoes = this.factoriesServices.correios(operador_movimentacoes.pacoteMovimentacoes);
+        registroMovimentacoes = this.factoriesServices.correios(
+          operador_movimentacoes.pacoteMovimentacoes,
+        );
         break;
       default:
         break;
     }
-    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', '').replace('bearer ', ''));
+    const idUsuario = this.utilsService.decode(
+      request.headers['authorization']
+        .replace('Bearer ', '')
+        .replace('bearer ', ''),
+    );
     const usuario = await this.usuariosService.findOne(idUsuario);
 
     return this.pacotesService.create({
       data_postagem: new Date(0),
       data_entrega: new Date(0),
       codigo_operador_logistico: codigo_pacote,
-      local_origem: "",
-      local_destino: "",
-      status: "",
+      local_origem: '',
+      local_destino: '',
+      status: '',
       movimentacoes: registroMovimentacoes,
       etiquetas: [],
       usuario: usuario,
-      operador_logistico: operador_movimentacoes.operador_logistico
+      operador_logistico: operador_movimentacoes.operador_logistico,
     });
   }
   @Get('user')
   async findByUsuario(@Req() request: Request) {
     //nao consegui fazer funcionar
-    console.log(request)
-    const idUsuario = this.utilsService.decode(request.headers['authorization'].replace('Bearer ', '').replace('bearer ', ''));
+    console.log(request);
+    const idUsuario = this.utilsService.decode(
+      request.headers['authorization']
+        .replace('Bearer ', '')
+        .replace('bearer ', ''),
+    );
     return await this.usuariosService.findWithRelations(idUsuario);
   }
-
 }

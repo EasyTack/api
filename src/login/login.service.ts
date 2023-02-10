@@ -16,7 +16,7 @@ export class LoginService {
   constructor(
     private readonly usersService: UsuariosService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   private async validate(loginDto: LoginDto): Promise<IUsuario> {
     return await this.usersService.findByUser(loginDto.usuario);

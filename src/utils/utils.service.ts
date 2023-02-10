@@ -4,16 +4,14 @@ import * as crypto from 'crypto';
 
 @Injectable()
 export class UtilsService {
-  constructor(
-    private readonly jwtService: JwtService,
-  ) { }
+  constructor(private readonly jwtService: JwtService) {}
 
   public generatePassword() {
     return crypto.randomUUID();
   }
 
   public decode(token) {
-    console.log(token)
+    console.log(token);
     const obj = this.jwtService.decode(token);
     return obj['id'];
   }

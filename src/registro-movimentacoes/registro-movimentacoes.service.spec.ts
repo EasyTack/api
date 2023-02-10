@@ -9,7 +9,9 @@ describe('RegistroMovimentacoesService', () => {
       providers: [RegistroMovimentacoesService],
     }).compile();
 
-    service = module.get<RegistroMovimentacoesService>(RegistroMovimentacoesService);
+    service = module.get<RegistroMovimentacoesService>(
+      RegistroMovimentacoesService,
+    );
   });
 
   it('should be defined', () => {

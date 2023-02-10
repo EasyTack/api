@@ -1,5 +1,13 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { OperadoresLogisticosService } from './operadores-logisticos.service';
 import { CreateOperadorLogisticoDto } from './dto/create-operador-logistico.dto';
 import { UpdateOperadorLogisticoDto } from './dto/update-operador-logistico.dto';
@@ -8,13 +16,13 @@ import { UpdateOperadorLogisticoDto } from './dto/update-operador-logistico.dto'
 @Controller('operadores-logisticos')
 export class OperadoresLogisticosController {
   constructor(
-    private readonly operadoresLogisticosService: OperadoresLogisticosService
-  ) { }
+    private readonly operadoresLogisticosService: OperadoresLogisticosService,
+  ) {}
 
   @Post()
   create(@Body() createOperadoresLogisticosDto: CreateOperadorLogisticoDto) {
     return this.operadoresLogisticosService.create(
-      createOperadoresLogisticosDto
+      createOperadoresLogisticosDto,
     );
   }
 
@@ -31,9 +39,12 @@ export class OperadoresLogisticosController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateOperadoresLogisticosDto: UpdateOperadorLogisticoDto
+    @Body() updateOperadoresLogisticosDto: UpdateOperadorLogisticoDto,
   ) {
-    return this.operadoresLogisticosService.update(id, updateOperadoresLogisticosDto);
+    return this.operadoresLogisticosService.update(
+      id,
+      updateOperadoresLogisticosDto,
+    );
   }
 
   @Delete(':id')

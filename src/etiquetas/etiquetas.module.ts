@@ -7,6 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [TypeOrmModule.forFeature([Etiqueta])],
   controllers: [EtiquetasController],
-  providers: [EtiquetasService]
+  providers: [EtiquetasService],
 })
-export class EtiquetasModule { }
+export class EtiquetasModule {}

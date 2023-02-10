@@ -11,7 +11,9 @@ describe('RegistroMovimentacoesController', () => {
       providers: [RegistroMovimentacoesService],
     }).compile();
 
-    controller = module.get<RegistroMovimentacoesController>(RegistroMovimentacoesController);
+    controller = module.get<RegistroMovimentacoesController>(
+      RegistroMovimentacoesController,
+    );
   });
 
   it('should be defined', () => {

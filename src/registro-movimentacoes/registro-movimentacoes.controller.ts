@@ -1,5 +1,14 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { RegistroMovimentacoesService } from './registro-movimentacoes.service';
 import { CreateRegistroMovimentacaoDto } from './dto/create-registro-movimentacao.dto';
 import { UpdateRegistroMovimentacaoDto } from './dto/update-registro-movimentacao.dto';
@@ -9,13 +18,13 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 export class RegistroMovimentacoesController {
   constructor(
-    private readonly registroMovimentacoesService: RegistroMovimentacoesService
-  ) { }
+    private readonly registroMovimentacoesService: RegistroMovimentacoesService,
+  ) {}
 
   @Post()
   create(@Body() createRegistroMovimentacoeDto: CreateRegistroMovimentacaoDto) {
     return this.registroMovimentacoesService.create(
-      createRegistroMovimentacoeDto
+      createRegistroMovimentacoeDto,
     );
   }
 
@@ -32,11 +41,11 @@ export class RegistroMovimentacoesController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateRegistroMovimentacoeDto: UpdateRegistroMovimentacaoDto
+    @Body() updateRegistroMovimentacoeDto: UpdateRegistroMovimentacaoDto,
   ) {
     return this.registroMovimentacoesService.update(
       id,
-      updateRegistroMovimentacoeDto
+      updateRegistroMovimentacoeDto,
     );
   }
 

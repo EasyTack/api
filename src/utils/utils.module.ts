@@ -23,6 +23,6 @@ import { UtilsService } from './utils.service';
     }),
   ],
   providers: [UtilsService, JwtModule],
-  exports: [UtilsService]
+  exports: [UtilsService],
 })
-export class UtilsModule { }
+export class UtilsModule {}

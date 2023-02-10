@@ -16,19 +16,26 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pacote, RegistroMovimentacao, OperadorLogistico, Usuario]),
-  ConfigModule.forRoot(),
-  PassportModule.register({ defaultStrategy: 'jwt', session: false }),
-  JwtModule.registerAsync({
-    imports: [ConfigModule],
-    useFactory: async (configService: ConfigService) => ({
-      secret: configService.get<string>('SECRET_KEY_JWT'),
-      signOptions: {
-        expiresIn: 3600,
-      },
+  imports: [
+    TypeOrmModule.forFeature([
+      Pacote,
+      RegistroMovimentacao,
+      OperadorLogistico,
+      Usuario,
+    ]),
+    ConfigModule.forRoot(),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('SECRET_KEY_JWT'),
+        signOptions: {
+          expiresIn: 3600,
+        },
+      }),
+      inject: [ConfigService],
     }),
-    inject: [ConfigService],
-  })],
+  ],
   controllers: [PacotesController],
   providers: [
     PacotesService,
@@ -36,7 +43,7 @@ import { Usuario } from 'src/usuarios/entities/usuario.entity';
     FactoriesService,
     RegistroMovimentacoesService,
     UtilsService,
-    UsuariosService
-  ]
+    UsuariosService,
+  ],
 })
-export class PacotesModule { }
+export class PacotesModule {}

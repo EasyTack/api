@@ -2,7 +2,7 @@ import {
   Injectable,
   NotFoundException,
   HttpException,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,8 +16,8 @@ export class UsuariosService {
   private readonly nameof = 'Usuario';
   constructor(
     @InjectRepository(Usuario)
-    private readonly repository: Repository<Usuario>
-  ) { }
+    private readonly repository: Repository<Usuario>,
+  ) {}
 
   public async create(dto: CreateUsuarioDto): Promise<IUsuario> {
     try {
@@ -42,7 +42,7 @@ export class UsuariosService {
 
   public async update(
     id: string,
-    dto: UpdateUsuarioDto
+    dto: UpdateUsuarioDto,
   ): Promise<UpdateResult> {
     try {
       const entity = await this.repository.update({ id: id }, { ...dto });
@@ -64,8 +64,8 @@ export class UsuariosService {
   public async findByEmail(email: string): Promise<Usuario> {
     const usuario = await this.repository.findOne({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
 
     if (!usuario) {
@@ -78,8 +78,8 @@ export class UsuariosService {
   public async findByUser(usuario: string): Promise<Usuario> {
     const usuarioDb = await this.repository.findOne({
       where: {
-        usuario: usuario
-      }
+        usuario: usuario,
+      },
     });
 
     if (!usuarioDb) {
@@ -90,10 +90,10 @@ export class UsuariosService {
   }
 
   public async findWithRelations(id: string) {
-    console.log(id,"ooi")
+    console.log(id, 'ooi');
     const entity = await this.repository.findOne({
       where: { usuario: id },
-      loadEagerRelations: true
+      loadEagerRelations: true,
     });
 
     if (!entity)

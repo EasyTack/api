@@ -1,5 +1,14 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { EtiquetasService } from './etiquetas.service';
 import { CreateEtiquetaDto } from './dto/create-etiqueta.dto';
 import { UpdateEtiquetaDto } from './dto/update-etiqueta.dto';
@@ -29,7 +38,7 @@ export class EtiquetasController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateEtiquetaDto: UpdateEtiquetaDto
+    @Body() updateEtiquetaDto: UpdateEtiquetaDto,
   ) {
     return this.etiquetasService.update(id, updateEtiquetaDto);
   }

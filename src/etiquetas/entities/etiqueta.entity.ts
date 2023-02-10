@@ -4,15 +4,15 @@ import { Pacote } from '../../pacotes/entities/pacote.entity';
 
 @Entity()
 export class Etiqueta extends Entidade {
-    @Column()
-    nome: string;
+  @Column()
+  nome: string;
 
-    @Column()
-    cor: string;
+  @Column()
+  cor: string;
 
-    @Column()
-    codigo: string;
+  @Column()
+  codigo: string;
 
-    @ManyToOne(() => Pacote, (pacote) => pacote.etiquetas)
-    pacote: Pacote;
+  @ManyToOne(() => Pacote, (pacote) => pacote.etiquetas)
+  pacote: Pacote;
 }

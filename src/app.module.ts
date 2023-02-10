@@ -14,6 +14,7 @@ import { LoginModule } from './login/login.module';
 import { UtilsModule } from './utils/utils.module';
 import { RegistroUsuarioModule } from './registro-usuario/registro-usuario.module';
 import { FactoriesModule } from './factories/factories.module';
+import { SparqlModule } from './sparql/sparql.module';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { FactoriesModule } from './factories/factories.module';
         database: config.getOrThrow<string>('TYPEORM_DATABASE'),
         synchronize: true,
         entities: ['dist/**/*.entity.js'],
-      })
+      }),
     }),
     UsuariosModule,
     ConfiguracoesModule,
@@ -42,9 +43,10 @@ import { FactoriesModule } from './factories/factories.module';
     LoginModule,
     UtilsModule,
     RegistroUsuarioModule,
-    FactoriesModule
+    FactoriesModule,
+    SparqlModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

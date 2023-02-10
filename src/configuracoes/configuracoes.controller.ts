@@ -1,5 +1,14 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfiguracoesService } from './configuracoes.service';
 import { CreateConfiguracaoDto } from './dto/create-configuracao.dto';
 import { UpdateConfiguracaoDto } from './dto/update-configuracao.dto';
@@ -9,7 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('configuracoes')
 @UseGuards(AuthGuard('jwt'))
 export class ConfiguracoesController {
-  constructor(private readonly configuracoesService: ConfiguracoesService) { }
+  constructor(private readonly configuracoesService: ConfiguracoesService) {}
 
   @Post()
   create(@Body() createConfiguracoeDto: CreateConfiguracaoDto) {
@@ -27,7 +36,10 @@ export class ConfiguracoesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConfiguracoeDto: UpdateConfiguracaoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateConfiguracoeDto: UpdateConfiguracaoDto,
+  ) {
     return this.configuracoesService.update(id, updateConfiguracoeDto);
   }
 

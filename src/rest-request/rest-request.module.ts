@@ -9,8 +9,10 @@ import { RegistroMovimentacao } from '../registro-movimentacoes/entities/registr
 import { FactoriesService } from 'src/factories/factories.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pacote, RegistroMovimentacao, OperadorLogistico])],
+  imports: [
+    TypeOrmModule.forFeature([Pacote, RegistroMovimentacao, OperadorLogistico]),
+  ],
   controllers: [RestRequestController],
-  providers: [RestRequestService, PacotesService, FactoriesService]
+  providers: [RestRequestService, PacotesService, FactoriesService],
 })
-export class RestRequestModule { }
+export class RestRequestModule {}

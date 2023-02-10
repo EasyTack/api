@@ -7,6 +7,6 @@ import { RegistroMovimentacao } from './entities/registro-movimentacao.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([RegistroMovimentacao])],
   controllers: [RegistroMovimentacoesController],
-  providers: [RegistroMovimentacoesService]
+  providers: [RegistroMovimentacoesService],
 })
 export class RegistroMovimentacoesModule {}

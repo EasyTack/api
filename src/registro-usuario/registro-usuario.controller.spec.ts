@@ -11,7 +11,9 @@ describe('RegistroUsuarioController', () => {
       providers: [RegistroUsuarioService],
     }).compile();
 
-    controller = module.get<RegistroUsuarioController>(RegistroUsuarioController);
+    controller = module.get<RegistroUsuarioController>(
+      RegistroUsuarioController,
+    );
   });
 
   it('should be defined', () => {

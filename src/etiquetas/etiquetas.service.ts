@@ -2,7 +2,7 @@ import {
   Injectable,
   NotFoundException,
   HttpException,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,7 +16,7 @@ export class EtiquetasService {
   private readonly nameof = 'Etiqueta';
   constructor(
     @InjectRepository(Etiqueta)
-    private readonly repository: Repository<Etiqueta>
+    private readonly repository: Repository<Etiqueta>,
   ) {}
 
   public async create(dto: CreateEtiquetaDto): Promise<IEtiqueta> {
@@ -42,7 +42,7 @@ export class EtiquetasService {
 
   public async update(
     id: string,
-    dto: UpdateEtiquetaDto
+    dto: UpdateEtiquetaDto,
   ): Promise<UpdateResult> {
     try {
       const entity = await this.repository.update({ id: id }, { ...dto });
