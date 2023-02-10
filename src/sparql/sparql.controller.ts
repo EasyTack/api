@@ -20,28 +20,26 @@ export class SparqlController {
   constructor(
     private readonly sparqlService: SparqlService,
     private readonly operadoresLogisticosService: OperadoresLogisticosService,
-  ) {}
+  ) { }
 
   @Post('/')
   @HttpCode(200)
-  operadoresLogisticos(
+  async operadoresLogisticos(
     @Body() receiveSparqlDto: ReceiveSparqlDto,
     @Req() req: Request,
   ) {
-    const tables = ['operador_logistico'];
+    const tables = ['operadorLogistico'];
     if (!tables.includes(receiveSparqlDto.subject))
       throw new BadRequestException('Sujeito não aceito');
 
     const uri = this.sparqlService.getUri(req);
-    const turtleQuery = this.sparqlService.toTurtle(receiveSparqlDto, uri);
-    console.log(turtleQuery);
+    const turtleQuery = this.sparqlService.toTurtle(receiveSparqlDto);
     const sqlQuery = this.sparqlService.toSql(turtleQuery);
-
     try {
-      const result = this.operadoresLogisticosService.find(sqlQuery);
-      return this.sparqlService.toTriple(result);
+      const result = await this.operadoresLogisticosService.find(sqlQuery);
+      return this.sparqlService.toTriple(turtleQuery, receiveSparqlDto.iri, result[0]);
     } catch (error) {
-      throw new BadRequestException('Erro ao executar query');
+      throw new BadRequestException(`Erro ao executar query \n ${error}`);
     }
   }
 

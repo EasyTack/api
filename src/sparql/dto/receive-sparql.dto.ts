@@ -4,4 +4,5 @@ export class ReceiveSparqlDto {
   object: string;
   literal: boolean;
   iri: string;
+  query: string;
 }

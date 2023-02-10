@@ -3,55 +3,66 @@ import { ReceiveSparqlDto } from './dto/receive-sparql.dto';
 import { Request } from 'express';
 import { StringHelper } from '../helpers/string.helper';
 
+
 @Injectable()
 export class SparqlService {
   getUri(req: Request) {
     return `${req.protocol}://${req.get('Host')}${req.originalUrl}`;
   }
 
-  toTurtle(receiveSparqlDto: ReceiveSparqlDto, uri: string) {
-    console.log(receiveSparqlDto);
-    const object = receiveSparqlDto.object.split(',');
-    const subject = receiveSparqlDto.subject.split(',');
-    const predicate = receiveSparqlDto.predicate.split(',');
-
-    //subject: entity identifier => emp3 - Represented using URI
-    //predicate: attribute name  => title - Represented using URI
-    //object: attribute value => "Vice President"
-    return `PREFIX ont: <${uri}>
-
-    SELECT ${object.join('?')}
+  toTurtle(receiveSparqlDto: ReceiveSparqlDto) {
+    return `PREFIX ol: <${receiveSparqlDto.iri}>
+    SELECT ?${receiveSparqlDto.subject} ?${receiveSparqlDto.predicate} ?${receiveSparqlDto.object}
     WHERE {
-      ?${subject} a db:${subject} ;
-                        ${predicate.forEach((e) => {
-                          return 'db:' + e + ' ?' + e + ';';
-                        })}                       
+      ?${receiveSparqlDto.subject} ?${receiveSparqlDto.predicate} ?${receiveSparqlDto.object} .
     }`;
   }
 
-  toSql(turtleQuery: string) {
-    //subject: entity identifier => emp3 - Represented using URI
-    //predicate: attribute name  => title - Represented using URI
-    //object: attribute value => "Vice President"
-    // documento: string;
-    // razao_social: string;
-    // nome_fantasia: string;
-    return 'ok';
+  toSql(triple: string) {
+    const subjectRegex = /(\?)?(\w+)\s/;
+    const predicateRegex = /(\w+:)(\w+)\s/;
+    const objectRegex = /"(.*)"\s\./;
+
+    const subject = triple.match(subjectRegex)?.[0].trim();
+    const predicate = triple.match(predicateRegex)?.[0].trim();
+    let object = triple.match(objectRegex)?.[0].trim().replace(/\"/g, '');
+    object = object.slice(0, -2);
+
+    let column = '';
+    switch (predicate) {
+      case 'ol:id':
+        column = 'id';
+        break;
+      case 'ol:criado_em':
+        column = 'criado_em';
+        break;
+      case 'ol:atualizado_em':
+        column = 'atualizado_em';
+        break;
+      case 'ol:documento':
+        column = 'documento';
+        break;
+      case 'ol:razao_social':
+        column = 'razao_social';
+        break;
+      case 'ol:nome_fantasia':
+        column = 'nome_fantasia';
+        break;
+      default:
+        throw new Error(`Predicado não suportado: ${predicate}`);
+    }
+
+    const sql = `SELECT * FROM operador_logistico WHERE ${column} = '${object}'`;
+
+    return sql;
   }
 
-  toTriple(queryResult: any) {
-    //subject: entity identifier => emp3 - Represented using URI
-    //predicate: attribute name  => title - Represented using URI
-    //object: attribute value => "Vice President"
-    return 'ok';
-  }
-
-  sqlToSparql(receiveSparqlDto: ReceiveSparqlDto, sqlQuery: string): string {
-    return `SELECT ?s
-          WHERE {
-            ?s ${receiveSparqlDto.predicate} "${receiveSparqlDto.object}" .
-            FILTER (str(?s) = "${receiveSparqlDto.subject}")
-          }`;
+  toTriple(query: string, endpoint: string, data) {
+    const result = [];
+    for (const key in data) {
+      result.push({ subject: `ol:${data[key] instanceof Date ? data[key].toISOString() : data[key]}`, object: `ol:${key}`, predicate: `${data[key] instanceof Date ? data[key].toISOString() : data[key]}` });
+    }
+    return result;
   }
 
   getResource(subject: string, uri: string): string {
@@ -61,42 +72,43 @@ export class SparqlService {
         PREFIX owl: <http://www.w3.org/2002/07/owl#>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX : <${uri}>
+        PREFIX ol: <${uri}>
         
-        <${uri}> rdf:type owl:Class;
-                rdfs:label "Operador Logistico" ;
-                rdfs:subClassOf :Entidade;
-                rdfs:comment "Classe que representa um operador logístico." .
-        
-        :id a owl:DatatypeProperty ;
+        ol:OperadorLogistico rdf:type owl:Class;
+        rdfs:label "Operador Logistico" ;
+        rdfs:subClassOf ol:Entidade;
+        rdfs:comment "Classe que representa um operador logístico." .
+
+        ol:id a owl:DatatypeProperty ;
                 rdfs:label "Identificador" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:string .
-        
-        :criado_em a owl:DatatypeProperty ;
+
+        ol:criado_em a owl:DatatypeProperty ;
                 rdfs:label "Data de Criação" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:dateTime .
-        
-        :atualizado_em a owl:DatatypeProperty ;
+
+        ol:atualizado_em a owl:DatatypeProperty ;
                 rdfs:label "Data de Atualização" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:dateTime .
-        
-        :documento a owl:DatatypeProperty ;
+
+        ol:documento a owl:DatatypeProperty ;
                 rdfs:label "Documento" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:string .
-        
-        :razao_social a owl:DatatypeProperty ;
+
+        ol:razao_social a owl:DatatypeProperty ;
                 rdfs:label "Razão Social" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:string .
-        
-        :nome_fantasia a owl:DatatypeProperty ;
+
+        ol:nome_fantasia a owl:DatatypeProperty ;
                 rdfs:label "Nome Fantasia" ;
-                rdfs:domain :OperadorLogistico ;
+                rdfs:domain ol:OperadorLogistico ;
                 rdfs:range xsd:string .
+
         `;
       default:
         return '';

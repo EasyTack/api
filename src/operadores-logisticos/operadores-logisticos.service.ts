@@ -63,7 +63,7 @@ export class OperadoresLogisticosService {
     await this.repository.remove(entity);
   }
 
-  public async find(query: string): Promise<IOperadorLogistico> {
+  public async find(query: string) {
     const entity = await this.repository.query(query);
     return entity;
   }
